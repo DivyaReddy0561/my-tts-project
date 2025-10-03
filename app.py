@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify, url_for
-import boto3
 import io
 from pydub import AudioSegment
 from docx import Document
@@ -7,6 +6,8 @@ from PyPDF2 import PdfReader
 import textwrap
 import mammoth
 import uuid
+import boto3
+polly_client = boto3.client('polly', region_name='us-east-1')
 
 app = Flask(__name__)
 
