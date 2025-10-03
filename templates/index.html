@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Text-to-Speech</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth.js/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs" type="module"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Cloud Text-to-Speech</h1>
+            <p class="subtitle">Powered by Amazon Polly</p>
+
+            <form class="form-section">
+                <div class="file-upload">
+    <label for="file-upload" class="custom-file-upload">
+        Choose File
+    </label>
+    <span id="file-name">No file chosen</span>
+    <input id="file-upload" type="file" accept=".txt, .pdf, .docx, .doc"/>
+</div>
+
+                
+                <textarea id="text-input" placeholder="Or type your text here" rows="8"></textarea>
+
+                <div class="dropdowns">
+                    <select id="voice-select">
+    <option value="">Select Voice</option>
+    <option value="Joanna">Joanna (US)</option>
+    <option value="Brian">Brian (UK)</option>
+    <option value="Raveena">Raveena (Indian)</option>
+    <option value="Nicole">Nicole (Australian)</option>
+</select>
+
+                    <select id="accent-select">
+    <option value="">Select Accent</option>
+    <option value="us">US</option>
+    <option value="uk">UK</option>
+    <option value="indian">Indian</option>
+    <option value="australian">Australian</option>
+                    </select>
+
+                </div>
+
+                <button type="submit" class="submit-button">Generate Speech</button>
+            </form>
+
+            <div class="audio-section">
+                <h3>Your Audio Output</h3>
+                <audio controls></audio>
+                <a href="#" class="download-button" download>Download</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const form = document.querySelector('.form-section');
+    const audioPlayer = document.querySelector('.audio-section audio');
+    const downloadLink = document.querySelector('.download-button');
+    const voiceSelect = document.getElementById('voice-select');
+    const fileInput = document.getElementById('file-upload');
+    const textarea = document.getElementById('text-input');
+    const fileNameSpan = document.getElementById('file-name');
+
+    // Show file name when selected
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            fileNameSpan.textContent = fileInput.files[0].name;
+        } else {
+            fileNameSpan.textContent = 'No file chosen';
+        }
+    });
+
+    // Updated submit handler
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        if (!voiceSelect.value) {
+            alert("Please select a voice.");
+            return;
+        }
+
+        const formData = new FormData();
+
+        if (fileInput.files.length > 0) {
+            // Attach file + voice
+            formData.append('file', fileInput.files[0]);
+            formData.append('voice', voiceSelect.value);
+        } else if (textarea.value.trim() !== "") {
+            // Attach text + voice (send as JSON)
+            const data = {
+                text: textarea.value.trim(),
+                voice: voiceSelect.value,
+            };
+            const response = await fetch('/synthesize', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+            return handleResponse(response);
+        } else {
+            alert("Please upload a file or enter text.");
+            return;
+        }
+
+        try {
+            const response = await fetch('/synthesize', {
+                method: 'POST',
+                body: formData,  // send as multipart/form-data
+            });
+            handleResponse(response);
+        } catch (error) {
+            alert('Failed to connect to the server.');
+        }
+    });
+
+    // New helper function
+    async function handleResponse(response) {
+        if (response.ok) {
+            const result = await response.json();
+            audioPlayer.src = result.audio_url;
+            audioPlayer.load();
+            audioPlayer.play();
+            downloadLink.href = result.audio_url;
+            downloadLink.style.display = 'block';
+        } else {
+            const error = await response.json();
+            alert('Error: ' + error.error);
+        }
+    }
+
+    downloadLink.style.display = 'none';
+</script>
+
+</body>
+</html>
