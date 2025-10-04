@@ -1,205 +1,272 @@
-/* General Body Styles */
+/* ---------------- General Body Styles ---------------- */
 body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: #b3bbda;
-    background: linear-gradient(rgba(13, 14, 23, 0.5)), url('bg1.jpg') no-repeat center center/cover;
-    animation: fadeIn 1.5s ease-in-out;
-}
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Ensure height is correct for centering */
+  min-height: 100vh;
+  color: #b3bbda;
+  background: linear-gradient(rgba(13, 14, 23, 0.5), rgba(13, 14, 23, 0.5)), url('bg1.jpg') no-repeat center center/cover;
+  background-attachment: fixed; /* Ensures background looks good when scrolling */
+  animation: fadeIn 1.5s ease-in-out;
 }
 
-/* Main Container (Card) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---------------- Main Container (Wrapper for the Card) ---------------- */
 .container {
-    padding: 20px;
-    width: 80%;
-    max-width: 900px;
-    align-items: center;
+  /* Changed fixed width to 100% width, limited by max-width */
+  width: 100%;
+  padding: 20px;
+  max-width: 900px;
+  box-sizing: border-box;
+  /* Added padding to the top/bottom for mobile spacing */
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    text-align: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  text-align: center;
+  /* Added width: 100% and margin auto for better centering on small screens */
+  width: 100%;
+  box-sizing: border-box;
+  margin: auto;
 }
 
-/* Typography */
+/* ---------------- Typography ---------------- */
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .subtitle {
-    font-size: 1rem;
-    margin-top: 0;
-    color: rgba(10, 15, 45, 0.8);
-    font-weight: bold;
+  font-size: 1rem;
+  margin-top: 0;
+  color: rgba(10, 15, 45, 0.8);
+  font-weight: bold;
 }
 
-/* Form Elements */
+/* ---------------- Form Elements ---------------- */
 .form-section {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .file-upload {
-    display: block;
-    margin-bottom: 20px;
+  display: flex; /* Changed from block to flex for better layout */
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 15px;
 }
 
 .custom-file-upload {
-    display: inline-block;
-    padding: 12px 24px;
-    cursor: pointer;
-    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    border: none;
-    border-radius: 50px;
-    color: rgb(241, 233, 233);
-    font-weight: bold;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: inline-block;
+  padding: 12px 24px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  border-radius: 50px;
+  color: rgb(241, 233, 233);
+  font-weight: bold;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .custom-file-upload:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#file-name {
+  color: #4a557a;
+  font-weight: bold;
+  max-width: 150px; /* Limits width so it doesn't break the layout before media query */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 input[type="file"] {
-    display: none;
+  display: none;
 }
 
 textarea {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 15px;
-    background: rgba(236, 231, 231, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #080855;
-    resize: vertical;
-    outline: none;
-    transition: border-color 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+  background: rgba(236, 231, 231, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #080855;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.3s ease;
 }
 
 textarea:focus {
-    border-color: #2575fc;
-    font-weight: bold;
+  border-color: #2575fc;
+  font-weight: bold;
 }
 
 textarea::placeholder {
-    color: rgba(56, 18, 18, 0.6);
-    font-weight: bold;
+  color: rgba(56, 18, 18, 0.6);
+  font-weight: bold;
 }
 
 .dropdowns {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 select {
-    width: 100%;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    color: #290a0a;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px top 50%;
-    background-size: 20px;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.3s ease;
-    font-weight: bold;
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #290a0a;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Updated SVG fill to black for better contrast on blurred background */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 20px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s ease;
+  font-weight: bold;
 }
 
 select:focus {
-    border-color: #2575fc;
+  border-color: #2575fc;
 }
 
 select option {
-    background: #1a1a2e;
-    color: #fff;
+  background: #1a1a2e;
+  color: #fff;
 }
 
 .submit-button {
-    width: 100%;
-    padding: 15px;
-    margin-top: 20px;
-    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .submit-button:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Audio Output Section */
+/* ---------------- Audio Output Section ---------------- */
 .audio-section {
-    margin-top: 40px;
+  margin-top: 40px;
 }
 
 .audio-section h3 {
-    margin-bottom: 15px;
-    font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
 }
 
 audio {
-    width: 100%;
-    margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .download-button {
-    padding: 12px 24px;
-    background: #fff;
-    color: #0a2960;
-    border: none;
-    border-radius: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+  padding: 12px 24px;
+  background: #fff;
+  color: #0a2960;
+  border: none;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .download-button:hover {
-    transform: scale(1.05);
-    background-color: #e0e0e0;
+  transform: scale(1.05);
+  background-color: #e0e0e0;
 }
 
-/* Responsive Design */
+/* ---------------- Responsive Design for Mobile/Tablet ---------------- */
 @media (max-width: 768px) {
-    .card {
-        padding: 20px;
-        margin: 0 10px;
-    }
+  .container {
+    padding: 10px; /* Reduce space around the edges */
+  }
 
-    h1 {
-        font-size: 2rem;
-    }
+  .card {
+    padding: 20px; /* Reduced internal padding for card */
+    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+  }
 
-    .dropdowns {
-        flex-direction: column;
-    }
+  h1 {
+    font-size: 1.8rem; /* Smaller main heading */
+  }
+
+  .file-upload {
+    /* Stack file upload elements vertically */
+    flex-direction: column;
+    align-items: flex-start; /* Align elements to the left on mobile for better flow */
+    gap: 10px;
+    width: 100%; /* Take full width */
+  }
+
+  .custom-file-upload,
+  #file-name {
+    /* Force these elements to take full width when stacked */
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center; /* Center button text */
+  }
+
+  #file-name {
+    text-align: left; /* Keep file name text left-aligned */
+    padding-left: 5px;
+    max-width: none; /* Remove max-width limit */
+  }
+
+  .dropdowns {
+    /* Stack dropdowns vertically */
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Ensure buttons and controls are large touch targets */
+  .submit-button,
+  .download-button {
+    padding: 15px 10px;
+    font-size: 1rem;
+  }
+
+  audio {
+    height: 40px; /* Make audio player shorter */
+  }
 }
